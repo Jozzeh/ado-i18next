@@ -1,29 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Translations</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>
+      Translations
+    </title>
+
+    <script src="https://cdn.tailwindcss.com">
+      
+    </script>
   </head>
   <body>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Language</th>
-          <th>Key</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        @each(translation in translations)
-        <tr>
-          <td>{{ translation.id }}</td>
-          <td>{{ translation.language }}</td>
-          <td>{{ translation.key }}</td>
-          <td>{{ translation.value }}</td>
-        </tr>
-        @endeach
-      </tbody>
-    </table>
+
+    <div class="container mx-auto mt-8">
+      <div>
+        <table class="table-auto w-full border-collapse divide-y divide-gray-300">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-xs uppercase ">
+                Id
+              </th>
+              <th class="px-6 py-3 text-xs uppercase ">
+                Language
+              </th>
+              <th class="px-6 py-3 text-xs uppercase ">
+                Key
+              </th>
+              <th class="px-6 py-3 text-xs uppercase ">
+                Translation
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            @each(translation in translations)
+              <tr class="whitespace-nowrap">
+                <td class="px-6 py-4">
+                  {{ translation.id }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ translation.language }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ translation.key }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ translation.value }}
+                </td>
+              </tr>
+            @endeach
+          </tbody>
+        </table>
+      </div>
+    </div>
   </body>
 </html>

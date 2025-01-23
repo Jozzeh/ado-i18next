@@ -9,11 +9,8 @@ export default class TranslationsController {
     if (language) {
       query = query.where('language', language.toUpperCase())
     }
-
-    // Execute the query
     const translations = await query
 
-    // Render your Edge template, passing the results
     return view.render('translations/index', { translations })
   }
 
@@ -52,6 +49,27 @@ export default class TranslationsController {
       message: 'Bulk translation insert completed.',
       createdCount,
       skippedKeys,
+    })
+  }
+
+  public async update({ params, request, response }: HttpContext) {
+    console.log(request)
+    const data = request.only(['key', 'value', 'language'])
+    const translation = await Translation.findOrFail(params.id)
+    // console.log(translation)
+    // console.log(data)
+
+
+    translation.key = data.key
+    translation.value = data.value
+    translation.language = data.language
+
+    await translation.save()
+
+    return response.json({
+      success: true,
+      message: 'Translation updated successfully',
+      data: translation,
     })
   }
 }

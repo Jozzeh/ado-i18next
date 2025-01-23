@@ -12,7 +12,13 @@ const TranslationsController = () => import('#controllers/translations_controlle
 
 router
   .group(() => {
-    router.post('/:language/create', [TranslationsController, 'create']).as('translations.create')
-    router.get('/:language?', [TranslationsController, 'index']).as('translations.index')
+    router.post('/:language/create', [TranslationsController, 'create'])
+    router.put('/:id', [TranslationsController, 'update'])
+    router.get('/:language?', [TranslationsController, 'index'])
   })
   .prefix('/api/v1/translations')
+router
+  .group(() => {
+    router.get('/:language?', [TranslationsController, 'index']).as('translations.index')
+  })
+  .prefix('/view/translations')
