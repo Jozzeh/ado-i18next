@@ -8,5 +8,10 @@
 */
 
 import router from '@adonisjs/core/services/router'
+const TranslationsController = () => import('#controllers/translations_controller')
 
-router.on('/').render('pages/home')
+router
+  .group(() => {
+    router.get('/', [TranslationsController, 'index']).as('translations.index')
+  })
+  .prefix('/api/v1/translations')
