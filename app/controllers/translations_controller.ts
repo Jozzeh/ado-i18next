@@ -14,6 +14,33 @@ export default class TranslationsController {
     return view.render('translations/index', { translations })
   }
 
+  public async edit({ view, params }: HttpContext) {
+    const { id } = params
+
+    let query = Translation.find(id)
+    const translation = await query
+
+    return view.render('translations/edit', { translation })
+  }
+
+  public async save({ request, view, params }: HttpContext) {
+    const data = request.only(['id', 'value'])
+    const translation = await Translation.findOrFail(data.id)
+
+    translation.value = data.value
+
+    await translation.save()
+    const { language } = params
+
+    let query = Translation.query()
+    if (language) {
+      query = query.where('language', language.toUpperCase())
+    }
+    const translations = await query
+
+    return view.render('translations/index', { language: translation.language, translations })
+  }
+
   public async create({ request, response, params }: HttpContext) {
     const { language } = params
     const translationsObject = request.body()
@@ -58,7 +85,6 @@ export default class TranslationsController {
     const translation = await Translation.findOrFail(params.id)
     // console.log(translation)
     // console.log(data)
-
 
     translation.key = data.key
     translation.value = data.value

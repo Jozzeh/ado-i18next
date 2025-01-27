@@ -12,13 +12,15 @@ const TranslationsController = () => import('#controllers/translations_controlle
 
 router
   .group(() => {
-    router.post('/:language/create', [TranslationsController, 'create'])
-    router.put('/:id', [TranslationsController, 'update'])
+    router.post('/:language/create', [TranslationsController, 'create']).as('translations.create')
+    router.put('/:id', [TranslationsController, 'update']).as('translations.update')
     router.get('/:language?', [TranslationsController, 'index'])
   })
   .prefix('/api/v1/translations')
 router
   .group(() => {
+    router.get('/:language/:id', [TranslationsController, 'edit']).as('translations.edit')
+    router.post('/:language?', [TranslationsController, 'save']).as('translations.save')
     router.get('/:language?', [TranslationsController, 'index']).as('translations.index')
   })
   .prefix('/view/translations')

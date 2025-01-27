@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      Translations
+    </title>
+
+    <script src="https://cdn.tailwindcss.com">
+      
+    </script>
+  </head>
+  <body>
+
+    <div class="container mx-auto mt-8">
+      <div>
+        <form
+          method="POST"
+          action="{{ route('translations.save', { language: translation.language, id: translation.id }) }}"
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        >
+          <div class="flex items-center justify-between">
+
+            <h1 class="text-2xl font-bold mb-4">
+              Edit Translation
+            </h1>
+            <a
+              href="{{ route('translations.index', { language: translation.language }) }}"
+              class="bg-grey-100 hover:bg-grey-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >Back</a>
+          </div>
+          <div class="flex items-center justify-between">
+            <input id="id" type="hidden" name="id" value="{{ translation.id }}" />
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="key">
+                Key
+            </label>
+              <p>
+                {{ translation.key }}
+              </p>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="language">
+                Language
+              </label>
+              <p>
+                {{ translation.language }}
+              </p>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="value">
+              Translation
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="value"
+              type="text"
+              placeholder="Translation"
+              name="value"
+              value="{{ translation.value }}"
+            />
+          </div>
+          <div class="flex items-center justify-between">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

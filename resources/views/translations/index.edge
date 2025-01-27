@@ -28,6 +28,8 @@
               <th class="px-6 py-3 text-xs uppercase ">
                 Translation
               </th>
+              <th class="px-6 py-3 text-xs uppercase ">
+              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -44,6 +46,12 @@
                 </td>
                 <td class="px-6 py-4">
                   {{ translation.value }}
+                </td>
+                <td class="px-6 py-4">
+                  <a
+                    class="bg-grey-100 hover:bg-grey-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    href="{{ route('translations.edit', { language:translation.language , id: translation.id }) }}"
+                  >edit</a>
                 </td>
               </tr>
             @endeach
