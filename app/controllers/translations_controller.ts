@@ -2,9 +2,9 @@ import Translation from '#models/translation'
 import { HttpContext } from '@adonisjs/core/http'
 
 export default class TranslationsController {
-  public async index({ view, params }: HttpContext) {
+  public async index({ view, params, request }: HttpContext) {
     const { language } = params
-
+    const page = request.input('page', 1)
     const distinctLangs = await Translation.query().select('language').distinct('language')
     const languages = distinctLangs.map((record) => record.language)
 
@@ -12,7 +12,7 @@ export default class TranslationsController {
     if (language) {
       query = query.where('language', language.toUpperCase())
     }
-    const translations = await query
+    const translations = await query.paginate(page, 9)
 
     return view.render('translations/index', {
       translations,

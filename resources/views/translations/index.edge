@@ -6,38 +6,36 @@
     </title>
 
     <script src="https://cdn.tailwindcss.com">
-
+      
     </script>
   </head>
   <body>
 
     <div class="container mx-auto mt-8">
-          <!-- Language Filter -->
-          <div class="mb-4">
-            <label for="languageSelect" class="mr-2 font-medium">Filter by Language:</label>
-            <select
-              id="languageSelect"
-              class="border px-2 py-1"
-              onChange="
+      <div class="mb-4">
+        <label for="languageSelect" class="mr-2 font-medium">Filter by Language:</label>
+        <select
+          id="languageSelect"
+          class="border px-2 py-1"
+          onChange="
                 if (this.value) {
                   window.location.href = '/view/translations/' + this.value
                 } else {
                   window.location.href = '/view/translations'
                 }
               "
-            >
-              <option value="">All</option>
+        >
+          <option value="">
+            All
+          </option>
 
-              @each(lang in languages)
-                <option
-                  value="{{ lang }}"
-                  {{ language && language.toUpperCase() === lang ? 'selected' : '' }}
-                >
-                  {{ lang }}
-                </option>
-              @endeach
-            </select>
-          </div>
+          @each(lang in languages)
+            <option value="{{ lang }}" {{ language && language.toUpperCase() === lang ? 'selected' : '' }}>
+              {{ lang }}
+            </option>
+          @endeach
+        </select>
+      </div>
       <div>
         <table class="table-auto w-full border-collapse divide-y divide-gray-300">
           <thead class="bg-gray-50">
@@ -83,6 +81,43 @@
             @endeach
           </tbody>
         </table>
+      </div>
+
+      <div class="flex items-center gap-4 mt-4">
+        @if(translations.currentPage > 1)
+          <a
+            class="text-blue-500 underline"
+            href="
+              @if(currentLanguage)
+                /view/translations/{{ currentLanguage }}?page={{ translations.currentPage - 1 }}
+              @else
+                /view/translations?page={{ translations.currentPage - 1 }}
+              @endif
+            "
+          >
+            Previous
+          </a>
+        @endif
+        
+        
+        <span>
+          Page {{ translations.currentPage }} of {{ translations.lastPage }}
+        </span>
+
+        @if(translations.currentPage < translations.lastPage)
+          <a
+            class="text-blue-500 underline"
+            href="
+              @if(currentLanguage)
+                /view/translations/{{ currentLanguage }}?page={{ translations.currentPage + 1 }}
+              @else
+                /view/translations?page={{ translations.currentPage + 1 }}
+              @endif
+            "
+          >
+            Next
+          </a>
+        @endif
       </div>
     </div>
   </body>
