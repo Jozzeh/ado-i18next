@@ -53,16 +53,11 @@ export default class TranslationsController {
   }
 
   public async update({ params, request, response }: HttpContext) {
-    console.log(request)
-    const data = request.only(['key', 'value', 'language'])
+    const data = request.only(['key', 'value'])
     const translation = await Translation.findOrFail(params.id)
-    // console.log(translation)
-    // console.log(data)
-
 
     translation.key = data.key
     translation.value = data.value
-    translation.language = data.language
 
     await translation.save()
 
@@ -70,6 +65,15 @@ export default class TranslationsController {
       success: true,
       message: 'Translation updated successfully',
       data: translation,
+    })
+  }
+
+  public async delete({ params, response }: HttpContext) {
+    const translation = await Translation.findOrFail(params.id)
+    await translation.delete()
+    return response.json({
+      success: true,
+      message: 'Translation deleted successfully',
     })
   }
 }

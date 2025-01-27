@@ -14,6 +14,7 @@ router
   .group(() => {
     router.post('/:language/create', [TranslationsController, 'create'])
     router.put('/:id', [TranslationsController, 'update'])
+    router.delete('/:id', [TranslationsController, 'delete'])
     router.get('/:language?', [TranslationsController, 'index'])
   })
   .prefix('/api/v1/translations')
