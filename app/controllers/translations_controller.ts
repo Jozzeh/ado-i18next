@@ -5,13 +5,20 @@ export default class TranslationsController {
   public async index({ view, params }: HttpContext) {
     const { language } = params
 
+    const distinctLangs = await Translation.query().select('language').distinct('language')
+    const languages = distinctLangs.map((record) => record.language)
+
     let query = Translation.query()
     if (language) {
       query = query.where('language', language.toUpperCase())
     }
     const translations = await query
 
-    return view.render('translations/index', { translations })
+    return view.render('translations/index', {
+      translations,
+      languages,
+      language: language,
+    })
   }
 
   public async edit({ view, params }: HttpContext) {
@@ -80,15 +87,11 @@ export default class TranslationsController {
   }
 
   public async update({ params, request, response }: HttpContext) {
-    console.log(request)
-    const data = request.only(['key', 'value', 'language'])
+    const data = request.only(['key', 'value'])
     const translation = await Translation.findOrFail(params.id)
-    // console.log(translation)
-    // console.log(data)
 
     translation.key = data.key
     translation.value = data.value
-    translation.language = data.language
 
     await translation.save()
 
@@ -96,6 +99,15 @@ export default class TranslationsController {
       success: true,
       message: 'Translation updated successfully',
       data: translation,
+    })
+  }
+
+  public async delete({ params, response }: HttpContext) {
+    const translation = await Translation.findOrFail(params.id)
+    await translation.delete()
+    return response.json({
+      success: true,
+      message: 'Translation deleted successfully',
     })
   }
 }
