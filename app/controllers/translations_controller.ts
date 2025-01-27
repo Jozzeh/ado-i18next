@@ -5,13 +5,20 @@ export default class TranslationsController {
   public async index({ view, params }: HttpContext) {
     const { language } = params
 
+    const distinctLangs = await Translation.query().select('language').distinct('language')
+    const languages = distinctLangs.map((record) => record.language)
+
     let query = Translation.query()
     if (language) {
       query = query.where('language', language.toUpperCase())
     }
     const translations = await query
 
-    return view.render('translations/index', { translations })
+    return view.render('translations/index', {
+      translations,
+      languages,
+      language: language
+    })
   }
 
   public async create({ request, response, params }: HttpContext) {

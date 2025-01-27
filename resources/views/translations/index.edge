@@ -6,12 +6,38 @@
     </title>
 
     <script src="https://cdn.tailwindcss.com">
-      
+
     </script>
   </head>
   <body>
 
     <div class="container mx-auto mt-8">
+          <!-- Language Filter -->
+          <div class="mb-4">
+            <label for="languageSelect" class="mr-2 font-medium">Filter by Language:</label>
+            <select
+              id="languageSelect"
+              class="border px-2 py-1"
+              onChange="
+                if (this.value) {
+                  window.location.href = '/view/translations/' + this.value
+                } else {
+                  window.location.href = '/view/translations'
+                }
+              "
+            >
+              <option value="">All</option>
+
+              @each(lang in languages)
+                <option
+                  value="{{ lang }}"
+                  {{ language && language.toUpperCase() === lang ? 'selected' : '' }}
+                >
+                  {{ lang }}
+                </option>
+              @endeach
+            </select>
+          </div>
       <div>
         <table class="table-auto w-full border-collapse divide-y divide-gray-300">
           <thead class="bg-gray-50">
