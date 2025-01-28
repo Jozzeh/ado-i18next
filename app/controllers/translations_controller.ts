@@ -30,6 +30,15 @@ export default class TranslationsController {
     return view.render('translations/edit', { translation })
   }
 
+  public async remove({ view, params }: HttpContext) {
+    const { id } = params
+
+    let query = Translation.find(id)
+    const translation = await query
+
+    return view.render('translations/delete', { translation, id })
+  }
+
   public async save({ request, view, params }: HttpContext) {
     const data = request.only(['id', 'value'])
     const translation = await Translation.findOrFail(data.id)
@@ -105,9 +114,7 @@ export default class TranslationsController {
   public async delete({ params, response }: HttpContext) {
     const translation = await Translation.findOrFail(params.id)
     await translation.delete()
-    return response.json({
-      success: true,
-      message: 'Translation deleted successfully',
-    })
+    // Instead of response.redirect().back():
+    return response.redirect().toPath('/view/translations')
   }
 }
