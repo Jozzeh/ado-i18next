@@ -22,6 +22,18 @@ export default class TranslationsController {
     })
   }
 
+  public async getTranslationsApi({ params, response }: HttpContext) {
+    const { language } = params
+    let query = Translation.query()
+    if (language) {
+      query = query.where('language', language.toUpperCase())
+    }
+
+    const translations = await query
+
+    return response.json(translations)
+  }
+
   public async edit({ view, params }: HttpContext) {
     const { id } = params
 

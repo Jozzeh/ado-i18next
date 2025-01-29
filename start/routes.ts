@@ -16,7 +16,7 @@ router
     router.post('/:language/create', [TranslationsController, 'create'])
     router.delete('/:id', [TranslationsController, 'delete'])
     router.put('/:id', [TranslationsController, 'update'])
-    router.get('/:language?', [TranslationsController, 'index'])
+    router.get('/:language?', [TranslationsController, 'getTranslationsApi'])
   })
   .prefix('/api/v1/translations')
 router
