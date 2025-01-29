@@ -18,6 +18,7 @@ export default class TranslationsController {
       translations,
       languages,
       language: language,
+      returnUrl: request.completeUrl(true),
     })
   }
 
@@ -111,10 +112,14 @@ export default class TranslationsController {
     })
   }
 
-  public async delete({ params, response }: HttpContext) {
+  public async delete({ params, response, request }: HttpContext) {
     const translation = await Translation.findOrFail(params.id)
     await translation.delete()
-    // Instead of response.redirect().back():
-    return response.redirect().toPath('/view/translations')
+    const returnUrl = request.input('returnUrl')
+    if (returnUrl) {
+      return response.redirect(returnUrl)
+    } else {
+      return response.redirect().toPath('/view/translations')
+    }
   }
 }

@@ -25,7 +25,9 @@ router
     router
       .get('/:language/:id/delete', [TranslationsController, 'remove'])
       .as('translations.delete')
-    router.post('/:language?', [TranslationsController, 'save']).as('translations.save')
+    router
+      .post('/:language/:id/delete', [TranslationsController, 'delete'])
+      .as('translations.deletePost')
     router.get('/:language?', [TranslationsController, 'index']).as('translations.index')
   })
   .prefix('/view/translations')
