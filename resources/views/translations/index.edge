@@ -6,7 +6,7 @@
     </title>
 
     <script src="https://cdn.tailwindcss.com">
-      
+
     </script>
   </head>
   <body>
@@ -99,8 +99,8 @@
           <a
             class="text-blue-500 underline"
             href="
-              @if(currentLanguage)
-                /view/translations/{{ currentLanguage }}?page={{ translations.currentPage - 1 }}
+              @if(language)
+                /view/translations/{{ language }}?page={{ translations.currentPage - 1 }}
               @else
                 /view/translations?page={{ translations.currentPage - 1 }}
               @endif
@@ -109,8 +109,8 @@
             Previous
           </a>
         @endif
-        
-        
+
+
         <span>
           Page {{ translations.currentPage }} of {{ translations.lastPage }}
         </span>
@@ -119,8 +119,8 @@
           <a
             class="text-blue-500 underline"
             href="
-              @if(currentLanguage)
-                /view/translations/{{ currentLanguage }}?page={{ translations.currentPage + 1 }}
+              @if(language)
+                /view/translations/{{ language }}?page={{ translations.currentPage + 1 }}
               @else
                 /view/translations?page={{ translations.currentPage + 1 }}
               @endif
@@ -171,7 +171,7 @@
         document.getElementById("deleteModal").classList.remove("hidden");
       }
       // Closes the modal
-      
+
       function closeDeleteModal() {
         document.getElementById("deleteModal").classList.add("hidden");
       }
