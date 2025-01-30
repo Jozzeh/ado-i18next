@@ -34,13 +34,15 @@ export default class TranslationsController {
     return response.json(translations)
   }
 
-  public async edit({ view, params }: HttpContext) {
+  public async edit({ view, params, request }: HttpContext) {
     const { id } = params
 
     let query = Translation.find(id)
     const translation = await query
 
-    return view.render('translations/edit', { translation })
+    const returnUrl = request.input('returnUrl', '/view/translations')
+
+    return view.render('translations/edit', { translation, returnUrl })
   }
 
   public async remove({ view, params }: HttpContext) {
@@ -52,22 +54,17 @@ export default class TranslationsController {
     return view.render('translations/delete', { translation, id })
   }
 
-  public async save({ request, view, params }: HttpContext) {
-    const data = request.only(['id', 'value'])
+  public async save({ request, response }: HttpContext) {
+    const data = request.only(['id', 'value', 'returnUrl'])
     const translation = await Translation.findOrFail(data.id)
 
     translation.value = data.value
 
     await translation.save()
-    const { language } = params
 
-    let query = Translation.query()
-    if (language) {
-      query = query.where('language', language.toUpperCase())
-    }
-    const translations = await query
+    const returnUrl = data.returnUrl || '/view/translations'
 
-    return view.render('translations/index', { language: translation.language, translations })
+    return response.redirect(returnUrl)
   }
 
   public async create({ request, response, params }: HttpContext) {
