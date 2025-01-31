@@ -130,6 +130,16 @@
           </a>
         @endif
       </div>
+      <h2 class="text-lg font-bold mt-8 mb-4">Downloads</h2>
+      <ul>
+        @each(language in languages)
+          <li>
+            <a class="text-blue-500 underline" href="{{ route('translations.download', { language: language }) }}">
+              {{ language.toUpperCase() }}.json
+            </a>
+          </li>
+        @endeach
+      </ul>
     </div>
     <div
       id="deleteModal"

@@ -131,4 +131,32 @@ export default class TranslationsController {
       return response.redirect().toPath('/view/translations')
     }
   }
+
+  public async download({ params, response }: HttpContext) {
+    try {
+      const { language } = params
+
+      if (!language) {
+        return response.badRequest('Language parameter is missing.')
+      }
+
+      const translations = await Translation.query()
+        .where('language', language.toUpperCase())
+        .select('key', 'value')
+
+      const jsonObj: Record<string, string> = {}
+      translations.forEach((translation) => {
+        jsonObj[translation.key] = translation.value
+      })
+
+      const jsonContent = JSON.stringify(jsonObj, null, 2)
+
+      response.header('Content-Type', 'application/json')
+      response.header('Content-Disposition', `attachment; filename=${language.toLowerCase()}.json`)
+
+      return response.send(jsonContent)
+    } catch (error) {
+      return response.status(500).send(error)
+    }
+  }
 }

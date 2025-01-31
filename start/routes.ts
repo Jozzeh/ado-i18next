@@ -18,6 +18,7 @@ router
     router.put('/:id', [TranslationsController, 'update'])
     router.post('/:language/:id', [TranslationsController, 'save']).as('translations.save')
     router.get('/:language?', [TranslationsController, 'getTranslationsApi'])
+    router.get('/:language/download', [TranslationsController, 'download']).as('translations.download')
   })
   .prefix('/api/v1/translations')
 router
