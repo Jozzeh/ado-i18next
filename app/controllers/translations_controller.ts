@@ -31,7 +31,11 @@ export default class TranslationsController {
 
     const translations = await query
 
-    return response.json(translations)
+    const mappedTranslations = Object.fromEntries(
+      translations.map((item) => [item.key, item.value])
+    )
+
+    return response.json(mappedTranslations)
   }
 
   public async edit({ view, params, request }: HttpContext) {
